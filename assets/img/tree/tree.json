@@ -1,0 +1,14 @@
+{
+    "tree-1": {
+        "id": 0,
+        "path": "tree-default.png"
+    },
+    "tree-2": {
+        "id": 1,
+        "path": "tree-lvl2.png"
+    },
+    "tree-3": {
+        "id": 2,
+        "path": "tree-lvl3.png"
+    }
+}

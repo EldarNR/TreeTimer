@@ -1,0 +1,23 @@
+{
+    "hello": "Hello World!",
+    "language": "Language",
+    "setTimer": "Set timer",
+    "auto": "Auto",
+    "second": "second",
+    "minute": "minute",
+    "hour": "hour",
+    "cycle": "cycle",
+    "them": "Theme",
+    "setting": "Setting",
+    "info": "info",
+    "complatedCycle": "All cycles completed!",
+    "prject_hello": "Hi! This is information mode.",
+    "project_info": "TreeTimer is a unique application that combines a Pomodoro timer, a game and a reward system.You work, study or relax using the Pomodoro timer, and when each cycle is completed you get coins. These coins can be spent to buy virtual trees, which multiplies the receipt of coins. The better trees you buy, the more coins you earn!",
+    "findErrororbetterprj": "Did you find a mistake? Do you have any wishes? ",
+    "contact": "You can write it in telegram - eldar_QQ",
+    "ErrorNeedPickTimerOrCycle": "Timer or cycle must be selected",
+    "ErrorNeedStartTimer": "Please set the timer before starting.",
+    "ErrorNeedPickCycle": "Cycle not correct",
+    "ErrorNeedPickTimer": "The timer's wrong",
+    "ErrorDontCorrectTimer": "The timer didn't start. Check the input data."
+}
