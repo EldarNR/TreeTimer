@@ -63,16 +63,20 @@ const onTimeChange = (selectID: number | null) => {
     }
 };
 
-// Инициализация при загрузке
 onMounted(() => {
     let selectT = Number(sessionStorage.getItem('selectedTime'));
     let selectC = Number(sessionStorage.getItem('cycle'));
 
-    if (selectT !== null && selectC !== null) {
+    if ((selectT !== null && selectT) && (selectC !== null && selectC)) {
         selected.selectedTime = selectT;
         selected.cycle = selectC;
 
         onTimeChange(selectT);
+    }
+
+    else {
+        selected.selectedTime = 3;
+        selected.cycle = 2
     }
 
 });

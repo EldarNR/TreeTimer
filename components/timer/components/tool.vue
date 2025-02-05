@@ -26,6 +26,8 @@ import { useTimer } from "~/store/timer";
 import { reactive } from "vue";
 import { useAlert } from "~/store/alert";
 
+
+
 // Определяем события, которые будет отправлять компонент
 const emit = defineEmits(['showTool']);
 
@@ -47,6 +49,7 @@ const startTimer = async () => {
             collect.start = false;
             collect.pause = true;
             collect.restart = true;
+
         } else {
             alert.setAlert(true, 0, "ErrorDontCorrectTimer");
         }
