@@ -1,7 +1,7 @@
 <template>
     <transition name="fade">
         <div v-if="alert.showAlert && alert.msg"
-            class="fixed top-5 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-white text-sm font-semibold"
+            class="fixed top-[10%] left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg text-white text-sm font-semibold"
             :class="alert.type === 0 ? 'bg-red-500' : 'bg-green-500'">
             {{ $t(alert.msg) }}
         </div>

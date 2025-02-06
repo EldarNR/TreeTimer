@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col items-center justify-center space-y-4 ml-auto">
+    <div class="flex flex-col items-center justify-center space-y-4">
         <!-- Круговой таймер -->
         <div class="relative w-full h-[400px]">
             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -11,9 +11,16 @@
                     :class="timer.isBreak ? 'text-red-500' : 'text-blue-500'" stroke-width="10" fill="none"
                     stroke="currentColor" stroke-linecap="round" />
             </svg>
-            <!-- Текст таймера внутри круга -->
-            <div class="absolute inset-0 flex items-center justify-center text-4xl font-semibold">
-                {{ formatTime(localTimer) }}
+            <!-- Текст таймера и блок с циклами внутри круга -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                <!-- Текст таймера -->
+                <div class="text-4xl font-semibold">
+                    {{ formatTime(localTimer) }}
+                </div>
+                <!-- Блок с циклами -->
+                <div v-if="timer.timerId" class="mt-2">
+                    <p class="text-lg">{{ timer.currentCycle }}/{{ timer.cycle }}</p>
+                </div>
             </div>
         </div>
     </div>

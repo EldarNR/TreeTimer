@@ -1,6 +1,6 @@
 <template>
-    <div
-        class="flex justify-center items-center border-2 shadow-md border-gray-300 rounded-full w-[180px] space-x-4 p-2 bg-white">
+    <div class="flex justify-center items-center border-2 shadow-md border-gray-300 rounded-full space-x-4 p-2 bg-white"
+        :class="timer.timerId !== null ? 'w-full' : ' w-[180px]'">
         <!-- Кнопка перезапуска -->
         <button @click="resetTimer()" :disabled="!collect.restart"
             class="flex items-center justify-center w-[44px] h-[44px] bg-red-100 rounded-full hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed">
