@@ -1,14 +1,18 @@
 <template>
     <div class="w-full">
+        <!-- Выбор времени -->
         <label for="time-select" class="block text-sm font-semibold mb-2">
             {{ $t('setTimer') }}
         </label>
         <select id="time-select" v-model="selected.selectedTime" @change="onTimeChange(selected.selectedTime)"
             class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700">
             <option v-for="time in times" :key="time.value" :value="time.id">
-                {{ `${time.label} ${nameTime(time.value)}` }}
+                {{ `${time.label} ${nameTime(time.value)} | ${formTime(time.break)} ${nameTime(time.break)}
+                ${$t('break')}` }}
             </option>
         </select>
+
+        <!-- Ввод количества циклов -->
         <div class="mt-4">
             <label for="cycle" class="block text-sm font-semibold mb-2">
                 {{ $t("cycle") }}
@@ -35,7 +39,6 @@ const selected = reactive({
     selectedTime: 4,
     cycle: 1,
 });
-
 // Слежка за изменением выбора пользователя
 watch(selected, (newValue) => {
     getSessionStorageItem('selectedTime', newValue.selectedTime),
@@ -82,24 +85,22 @@ onMounted(() => {
 });
 
 const times: timer[] = [
-    { id: 1, value: 1500, label: '25', break: 300 },
-    { id: 2, value: 1800, label: '30', break: 360 },
-    { id: 3, value: 2100, label: '35', break: 420 },
-    { id: 4, value: 2400, label: '40', break: 480 },
-    { id: 5, value: 2700, label: '45', break: 540 },
-    { id: 6, value: 3000, label: '50', break: 600 },
-    { id: 7, value: 3300, label: '55', break: 660 },
-    { id: 8, value: 3600, label: '1', break: 720 },
-    { id: 9, value: 5, label: '5', break: 5 },
+    { id: 1, value: 1500, label: '25', break: 300, },
+    { id: 2, value: 1800, label: '30', break: 360, },
+    { id: 3, value: 2100, label: '35', break: 420, },
+    { id: 4, value: 2400, label: '40', break: 480, },
+    { id: 5, value: 2700, label: '45', break: 540, },
+    { id: 6, value: 3000, label: '50', break: 600, },
+    { id: 7, value: 3300, label: '55', break: 660, },
+    { id: 8, value: 3600, label: '1', break: 720, },
+    { id: 9, value: 5, label: '5', break: 5, },
 ];
 
-function nameTime(value: number): string {
-    if (value < 60) {
-        return `${t("second")}`;
-    } else if (value < 3600) {
-        return `${t("minute")}`;
-    } else {
-        return `${t("hour")}`;
-    }
+const formTime = (num: number) => {
+    return num / 60;
 }
+const nameTime = (value: number) =>
+    value < 60 ? t("second") : value < 3600 ? t("minute") : t("hour");
+
+
 </script>

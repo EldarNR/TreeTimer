@@ -19,6 +19,12 @@ export const useAlert = defineStore("alert", {
       this.$state.showAlert = show;
       this.$state.type = type;
       this.$state.msg = msg;
+
+      setTimeout(() => {
+        this.showAlert = false;
+        this.type = null;
+        this.msg = null;
+      }, 5000);
     },
   },
 });

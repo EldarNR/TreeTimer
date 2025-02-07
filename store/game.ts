@@ -6,13 +6,13 @@ import tree3 from "@/assets/img/tree/tree-lvl3.png";
 
 export const useGame = defineStore("game", {
   state: () => ({
-    coins: 500, // Стартовые монеты
+    coins: 0, // Стартовые монеты
     activeTree: 1, // Активное дерево
     level: 1, // Открытый уровень дерева
     trees: [
       { level: 1, image: tree1, cost: 0, multiplier: 2 },
-      { level: 2, image: tree2, cost: 100, multiplier: 4 },
-      { level: 3, image: tree3, cost: 250, multiplier: 6 },
+      { level: 2, image: tree2, cost: 1000, multiplier: 4 },
+      { level: 3, image: tree3, cost: 2500, multiplier: 6 },
     ],
   }),
   getters: {
@@ -31,7 +31,7 @@ export const useGame = defineStore("game", {
       const tree = this.trees.find((t) => t.level === treeLevel);
       if (tree && this.coins >= tree.cost) {
         this.coins -= tree.cost;
-        this.level = treeLevel; // Открываем новый уровень
+        this.level = treeLevel;
       }
     },
     selectTree(treeLevel: number) {
@@ -44,7 +44,6 @@ export const useGame = defineStore("game", {
       if (tree) {
         const earnedCoins = 50 * tree.multiplier;
         this.coins += earnedCoins;
-        alert(`Вы получили ${earnedCoins} монет!`);
       }
     },
   },

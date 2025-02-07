@@ -22,14 +22,11 @@
 </template>
 
 <script setup lang="ts">
+import { watch, reactive } from "vue";
 import { useTimer } from "~/store/timer";
-import { reactive } from "vue";
 import { useAlert } from "~/store/alert";
 
-
-
-// Определяем события, которые будет отправлять компонент
-const emit = defineEmits(['showTool']);
+const emit = defineEmits(["showTool"]);
 
 const alert = useAlert();
 const timer = useTimer();
@@ -40,16 +37,24 @@ const collect = reactive({
     start: true,
 });
 
+watch(
+    () => timer.timerId,
+    (newVal) => {
+        if (newVal === null) {
+            resetCollectState();
+        }
+    }
+);
+
 // Запуск таймера
 const startTimer = async () => {
     try {
         const isStarted = await timer.startTimer();
         if (isStarted) {
-            emit('showTool', false); // Отправляем событие с true
+            emit("showTool", false);
             collect.start = false;
             collect.pause = true;
             collect.restart = true;
-
         } else {
             alert.setAlert(true, 0, "ErrorDontCorrectTimer");
         }
@@ -63,15 +68,13 @@ const resetTimer = async () => {
     try {
         const isReset = await timer.resetTimer();
         if (isReset) {
-            emit('showTool', true); // Отправляем событие с true
-            collect.start = true;
-            collect.pause = false;
-            collect.restart = false;
+            emit("showTool", true);
+            resetCollectState();
         } else {
-            alert.setAlert(true, 0, "ErrorResetTimer"); // Ошибка сброса
+            alert.setAlert(true, 0, "ErrorResetTimer");
         }
     } catch (e) {
-        alert.setAlert(true, 0, "ErrorResetTimer"); // Ошибка сброса
+        alert.setAlert(true, 0, "ErrorResetTimer");
     }
 };
 
@@ -80,15 +83,23 @@ const stopTimer = async () => {
     try {
         const isStopped = await timer.stopTimer();
         if (isStopped) {
-            emit('showTool', true); // Отправляем событие с true
-            collect.start = true;
-            collect.pause = false;
-            collect.restart = true;
+            emit("showTool", true);
+            resetCollectState();
         } else {
-            alert.setAlert(true, 0, "ErrorStopTimer"); // Ошибка остановки
+            alert.setAlert(true, 0, "ErrorStopTimer");
         }
     } catch (e) {
-        alert.setAlert(true, 0, "ErrorStopTimer"); // Ошибка остановки
+        alert.setAlert(true, 0, "ErrorStopTimer");
     }
 };
+
+// Сброс состояния кнопок
+const resetCollectState = () => {
+    collect.start = true;
+    collect.pause = false;
+    collect.restart = false;
+    emit('showTool', true); // **Показываем кнопки**
+};
+
+
 </script>

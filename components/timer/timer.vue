@@ -15,11 +15,16 @@
                 <them />
                 <language />
             </div>
+
+            <!-- Контейнер для стр игры   -->
+            <game v-show="isSetting === 'game'" />
+
             <!-- Контейнер для информации -->
             <info v-show="isSetting === 'info'" />
+
         </div>
         <!-- Кнопки для запуска,сброса и остановки таймера -->
-        <tool @showTool="handleValue" />
+        <tool v-if="isSetting === 'auto'" @showTool="handleValue" />
     </div>
 </template>
 
@@ -32,6 +37,7 @@ import them from './components/them.vue';
 import setting from './components/setting.vue';
 import info from './components/info.vue';
 import selectTimer from './components/selectTimer.vue';
+import game from '../game/visual.vue';
 import { useTimer } from '~/store/timer';
 
 const timer = useTimer();

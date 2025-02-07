@@ -17,6 +17,14 @@
             {{ $t('setting') }}
         </button>
 
+        <!-- Кнопка "GamePage" -->
+        <button @click="setSetting('game')" :class="[
+            'w-1/3 py-1 rounded-full text-sm font-medium transition-all duration-300',
+            setting === 'game' ? 'bg-blue-500 text-white shadow-md' : 'text-gray-500 hover:bg-gray-200 dark:hover:bg-neutral-600'
+        ]">
+            {{ $t('game') }}
+        </button>
+
         <!-- Кнопка "Info" -->
         <button @click="setSetting('info')" :class="[
             'w-1/3 py-1 rounded-full text-sm font-medium transition-all duration-300',
@@ -29,9 +37,9 @@
 
 <script setup lang="ts">
 const emit = defineEmits(['showSetting']);
-const setting = ref<'auto' | 'setting' | 'info'>('auto'); // Текущее состояние
+const setting = ref<'auto' | 'setting' | "game" | 'info'>('auto'); // Текущее состояние
 
-const setSetting = (value: 'auto' | 'setting' | 'info') => {
+const setSetting = (value: 'auto' | 'setting' | 'game' | 'info') => {
     setting.value = value;
     emit('showSetting', value);
 };
