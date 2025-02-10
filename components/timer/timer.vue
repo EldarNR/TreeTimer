@@ -44,12 +44,13 @@ const timer = useTimer();
 const isSetting = ref<string>('auto'); // По умолчанию "auto"
 
 const showTool = ref<boolean>(true);
-export type timer = {
-    id: number
-    value: number,
-    label: string,
-    break: number
-}
+export type Timer = {
+    id: number;
+    value: number;
+    label: string;
+    break: number;
+    reward?: number;
+};
 // Обработчик переключения
 const handleValue = (value: boolean) => {
     showTool.value = value;

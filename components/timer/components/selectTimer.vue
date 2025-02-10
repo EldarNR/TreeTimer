@@ -27,80 +27,80 @@
 import { ref, reactive, watch, onMounted } from 'vue';
 import { useTimer } from '~/store/timer';
 import { useAlert } from '~/store/alert';
-import { getSessionStorageItem } from '~/utils/function/timer';
 import { useI18n } from 'vue-i18n';
-import { type timer } from '../timer.vue';
+import { type Timer } from '../timer.vue';
+
 const alert = useAlert();
 const timer = useTimer();
 const { t } = useI18n();
 
-// Состояние для выбранных значений
 const selected = reactive({
     selectedTime: 4,
     cycle: 1,
 });
-// Слежка за изменением выбора пользователя
-watch(selected, (newValue) => {
-    getSessionStorageItem('selectedTime', newValue.selectedTime),
-        getSessionStorageItem('cycle', newValue.cycle),
 
-        sessionStorage.setItem('selectedTime', JSON.stringify(newValue.selectedTime));
-    sessionStorage.setItem('cycle', JSON.stringify(newValue.cycle));
+// Проверка и обновление sessionStorage только на клиенте
+const updateSessionStorage = () => {
+    if (process.client) {
+        sessionStorage.setItem('selectedTime', JSON.stringify(selected.selectedTime));
+        sessionStorage.setItem('cycle', JSON.stringify(selected.cycle));
+    }
+};
 
+watch(selected, () => {
+    updateSessionStorage();
     onTimeChange(selected.selectedTime);
 });
 
-// Обработчик выбора времени
 const onTimeChange = (selectID: number | null) => {
-    const selectedTime = times.find(time => time.id === selectID);
+    if (!process.client) return; // Защита от выполнения на сервере
 
+    const selectedTime = times.find(time => time.id === selectID);
 
     if (selectedTime && selected.cycle !== null) {
         sessionStorage.setItem("time", String(selectedTime.value));
         sessionStorage.setItem("breakTime", String(selectedTime.break));
         sessionStorage.setItem("cycle", String(selected.cycle));
-        console.log(selected.cycle)
         timer.setTimer(selectedTime.value, selectedTime.break, selected.cycle);
+
+        // Вычисление reward и сохранение в sessionStorage
+        const reward = selectedTime.value / 3600;
+        sessionStorage.setItem("reward", JSON.stringify(reward));
     } else {
         alert.setAlert(true, 0, "ErrorNeedPickTimerOrCycle");
     }
 };
 
 onMounted(() => {
-    let selectT = Number(sessionStorage.getItem('selectedTime'));
-    let selectC = Number(sessionStorage.getItem('cycle'));
+    if (!process.client) return;
 
-    if ((selectT !== null && selectT) && (selectC !== null && selectC)) {
-        selected.selectedTime = selectT;
-        selected.cycle = selectC;
+    let selectT = sessionStorage.getItem('selectedTime');
+    let selectC = sessionStorage.getItem('cycle');
 
-        onTimeChange(selectT);
-    }
-
-    else {
+    if (selectT && selectC) {
+        selected.selectedTime = Number(selectT);
+        selected.cycle = Number(selectC);
+        onTimeChange(selected.selectedTime);
+    } else {
         selected.selectedTime = 3;
-        selected.cycle = 2
+        selected.cycle = 2;
     }
-
 });
 
-const times: timer[] = [
-    { id: 1, value: 1500, label: '25', break: 300, },
-    { id: 2, value: 1800, label: '30', break: 360, },
-    { id: 3, value: 2100, label: '35', break: 420, },
-    { id: 4, value: 2400, label: '40', break: 480, },
-    { id: 5, value: 2700, label: '45', break: 540, },
-    { id: 6, value: 3000, label: '50', break: 600, },
-    { id: 7, value: 3300, label: '55', break: 660, },
-    { id: 8, value: 3600, label: '1', break: 720, },
-    { id: 9, value: 5, label: '5', break: 5, },
+const times: Timer[] = [
+    { id: 1, value: 1500, label: '25', break: 300 },
+    { id: 2, value: 1800, label: '30', break: 360 },
+    { id: 3, value: 2100, label: '35', break: 420 },
+    { id: 4, value: 2400, label: '40', break: 480 },
+    { id: 5, value: 2700, label: '45', break: 540 },
+    { id: 6, value: 3000, label: '50', break: 600 },
+    { id: 7, value: 3300, label: '55', break: 660 },
+    { id: 8, value: 3600, label: '1', break: 720 },
+    { id: 9, value: 5, label: '5', break: 5 },
 ];
 
-const formTime = (num: number) => {
-    return num / 60;
-}
+const formTime = (num: number) => num / 60;
 const nameTime = (value: number) =>
     value < 60 ? t("second") : value < 3600 ? t("minute") : t("hour");
-
 
 </script>

@@ -52,10 +52,14 @@ export const useTimer = defineStore("timer", {
             if (this.currentCycle >= this.cycle) {
               this.stopTimer();
               useAlert().setAlert(true, 1, "complatedCycle");
-
-              // **Восстанавливаем кнопки после завершения**
               this.resetButtonState();
-              useGame().finishTimer();
+
+              let reward = Number(sessionStorage.getItem("reward"));
+              let cycle = Number(sessionStorage.getItem("cycle"));
+
+              if (reward && cycle) {
+                useGame().finishTimer(reward, cycle);
+              }
 
               if (this.initialSettings) {
                 this.setTimer(
@@ -103,14 +107,12 @@ export const useTimer = defineStore("timer", {
       return true;
     },
 
-    // **Сброс состояния кнопок после завершения**
     resetButtonState(): void {
       this.currentCycle = 0;
       this.isBreak = false;
       this.timerId = null;
 
-      // **Отправляем событие для показа кнопок**
-      useAlert().setAlert(true, 1, "Кнопки восстановлены");
+      useAlert().setAlert(true, 1, "timercomplete");
     },
   },
 });

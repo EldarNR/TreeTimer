@@ -1,8 +1,19 @@
-// stores/game.ts
 import { defineStore } from "pinia";
 import tree1 from "@/assets/img/tree/tree-default.png";
 import tree2 from "@/assets/img/tree/tree-lvl2.png";
 import tree3 from "@/assets/img/tree/tree-lvl3.png";
+
+const loadState = () => {
+  const savedState = localStorage.getItem("gameState");
+  if (savedState) {
+    return JSON.parse(savedState);
+  }
+  return null;
+};
+
+const saveState = (state: any) => {
+  localStorage.setItem("gameState", JSON.stringify(state));
+};
 
 export const useGame = defineStore("game", {
   state: () => ({
@@ -27,23 +38,35 @@ export const useGame = defineStore("game", {
       state.trees.filter((tree) => tree.level <= state.level),
   },
   actions: {
+    initialize() {
+      const savedState = loadState();
+      if (savedState) {
+        this.coins = savedState.coins;
+        this.activeTree = savedState.activeTree;
+        this.level = savedState.level;
+      }
+    },
     buyFertilizer(treeLevel: number) {
       const tree = this.trees.find((t) => t.level === treeLevel);
       if (tree && this.coins >= tree.cost) {
         this.coins -= tree.cost;
-        this.level = treeLevel;
+        this.level = Math.max(this.level, treeLevel);
+        saveState(this.$state);
       }
     },
     selectTree(treeLevel: number) {
       if (treeLevel <= this.level) {
         this.activeTree = treeLevel;
+        saveState(this.$state);
       }
     },
-    finishTimer() {
+    finishTimer(time: number, cycle: number) {
       const tree = this.trees.find((t) => t.level === this.activeTree);
-      if (tree) {
-        const earnedCoins = 50 * tree.multiplier;
-        this.coins += earnedCoins;
+      if (tree && time && cycle) {
+        const earnedCoins =
+          Math.max((time / 3600) * 50 * tree.multiplier, 1) * cycle;
+        this.coins += Math.round(earnedCoins);
+        saveState(this.$state);
       }
     },
   },

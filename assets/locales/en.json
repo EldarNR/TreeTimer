@@ -15,6 +15,7 @@
     "coin": "Coin",
     "unlock": "Unlock for",
     "buy": "Buy",
+    "timercomplete":"Timer complete!",
     "complatedCycle": "All cycles completed!",
     "prject_hello": "Hi! This is information mode.",
     "project_info": "TreeTimer is a unique application that combines a Pomodoro timer, a game and a reward system.You work, study or relax using the Pomodoro timer, and when each cycle is completed you get coins. These coins can be spent to buy virtual trees, which multiplies the receipt of coins. The better trees you buy, the more coins you earn!",
