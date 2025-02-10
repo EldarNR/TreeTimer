@@ -1,75 +1,28 @@
-# Nuxt Minimal Starter
+Technologies Used
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Vue 3 - The core framework for building the user interface.
+Nuxt 3 - Provides server-side rendering, static site generation, and other optimizations.
+Pinia - A state management library that is simpler and more efficient than Vuex.
+Tailwind CSS - A utility-first CSS framework for styling and layout.
+TypeScript - Ensures type safety and better code maintainability.
+Axios - Used for handling HTTP requests to communicate with backend APIs.
+Vue Router - Manages application routing and navigation.
+VueUse - A collection of essential Vue Composition API utilities.
+ESLint & Prettier - For enforcing code quality and formatting consistency.
 
-## Setup
+Setup Instructions
 
-Make sure to install dependencies:
-
-```bash
+Ensure you have Node.js installed. Then, install dependencies:
 # npm
 npm install
-
 # pnpm
 pnpm install
-
 # yarn
 yarn install
-
 # bun
 bun install
-```
 
-## Development Server
+Running the Development Server
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+To start the development server, run:
+npm run dev  # or yarn dev / pnpm dev / bun dev
