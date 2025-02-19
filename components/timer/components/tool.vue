@@ -25,6 +25,10 @@
 import { watch, reactive } from "vue";
 import { useTimer } from "~/store/timer";
 import { useAlert } from "~/store/alert";
+import { useSound } from "@vueuse/sound";
+
+import start from '@/assets/sound/start.wav';
+import end from '@/assets/sound/end.wav';
 
 const emit = defineEmits(["showTool"]);
 
@@ -37,6 +41,9 @@ const collect = reactive({
     start: true,
 });
 
+const { play: playStart } = useSound(start);
+const { play: playEnd } = useSound(end);
+
 watch(
     () => timer.timerId,
     (newVal) => {
@@ -45,6 +52,12 @@ watch(
         }
     }
 );
+
+watch(() => timer.time, (newVal) => {
+    if (newVal === 0 ) {
+        playEnd();
+    }
+});
 
 // Запуск таймера
 const startTimer = async () => {
@@ -55,6 +68,9 @@ const startTimer = async () => {
             collect.start = false;
             collect.pause = true;
             collect.restart = true;
+
+            playStart();
+
         } else {
             alert.setAlert(true, 0, "ErrorDontCorrectTimer");
         }
@@ -62,6 +78,7 @@ const startTimer = async () => {
         alert.setAlert(true, 0, "ErrorDontCorrectTimer");
     }
 };
+
 
 // Сброс таймера
 const resetTimer = async () => {
